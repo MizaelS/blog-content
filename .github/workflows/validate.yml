@@ -29,7 +29,9 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install -g front-matter
+        run: |
+          npm init -y
+          npm install front-matter
 
       - name: Check for duplicate files
         run: |

@@ -3,6 +3,8 @@ title: "Hello World"
 date: "2023-07-15"
 excerpt: "My first blog post in English"
 authorId: "mizael-segovia"
+category: "General"
+tags: ["bienvenida", "introducción", "blog"]
 ---
 
 # Hello World!

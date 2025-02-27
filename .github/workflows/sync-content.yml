@@ -17,6 +17,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
+      - name: Debug token presence
+        run: |
+          if [ -n "${{ secrets.TERAMONT_PAT }}" ]; then
+            echo "Token está presente"
+          else
+            echo "Token no está disponiblee"
+            exit 1
+          fi
         
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -33,15 +42,6 @@ jobs:
           lfs: false
           submodules: false
           set-safe-directory: true
-
-      - name: Debug token presence
-        run: |
-          if [ -n "${{ secrets.TERAMONT_PAT }}" ]; then
-            echo "Token está presente"
-          else
-            echo "Token no está disponiblee"
-            exit 1
-          fi
 
       - name: Sync blog content
         env:

@@ -10,20 +10,22 @@ jobs:
   sync:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout source repo
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/checkout@v3
 
       - name: Checkout Teramont website repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: Teramont-Host/new-website
           token: ${{ secrets.TERAMONT_PAT }}
           path: teramont-web
 
       - name: Sync blog content
+        env:
+          GITHUB_TOKEN: ${{ secrets.TERAMONT_PAT }}
         run: |
           # Eliminar contenido existente
           rm -rf teramont-web/content/*

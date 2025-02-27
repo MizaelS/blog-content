@@ -15,17 +15,30 @@ jobs:
     steps:
       - name: Checkout source repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Checkout Teramont website repo
         uses: actions/checkout@v3
         with:
           repository: Teramont-Host/new-website
-          token: ${{ secrets.TERAMONT_PAT }}
           path: teramont-web
+          token: ${{ secrets.TERAMONT_PAT }}
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Debug token presence
+        run: |
+          if [ -n "${{ secrets.TERAMONT_PAT }}" ]; then
+            echo "Token está presente"
+          else
+            echo "Token no está disponible"
+            exit 1
+          fi
 
       - name: Sync blog content
         env:
-          GITHUB_TOKEN: ${{ secrets.TERAMONT_PAT }}
+          GH_TOKEN: ${{ secrets.TERAMONT_PAT }}
         run: |
           # Eliminar contenido existente
           rm -rf teramont-web/content/*
@@ -35,10 +48,10 @@ jobs:
           
           # Configurar git
           cd teramont-web
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
+          git config user.name "GitHub Actions Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           
           # Commit y push de cambios
           git add .
           git commit -m "sync: Actualización de contenido desde blog-content-repo - PR #${{ github.event.pull_request.number }}"
-          git push
+          git push origin HEAD:main

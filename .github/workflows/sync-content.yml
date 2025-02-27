@@ -17,31 +17,24 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+        
+      - name: Checkout Teramont website repo
+        uses: actions/checkout@v3
+        with:
+          repository: Teramont-Host/new-website
+          path: teramont-web
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Debug token presence
         run: |
           if [ -n "${{ secrets.TERAMONT_PAT }}" ]; then
             echo "Token está presente"
           else
-            echo "Token no está disponiblee"
+            echo "Token no está disponible"
             exit 1
           fi
-        
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          repository: Teramont-Host/new-website
-          path: teramont-web
-          token: ${{ secrets.TERAMONT_PAT }} # Add this line
-          persist-credentials: true
-          fetch-depth: 0
-          ssh-strict: true
-          clean: true
-          sparse-checkout-cone-mode: true
-          fetch-tags: false
-          lfs: false
-          submodules: false
-          set-safe-directory: true
 
       - name: Sync blog content
         env:
@@ -61,4 +54,4 @@ jobs:
           # Commit y push de cambios
           git add .
           git commit -m "sync: Actualización de contenido desde blog-content-repo - PR #${{ github.event.pull_request.number }}"
-          git push origin HEAD:main
+          git push origin HEAD:maina

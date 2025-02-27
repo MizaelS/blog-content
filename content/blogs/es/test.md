@@ -1,7 +1,7 @@
 ---
 title: "Hola Mundo"
 date: "2023-07-15"
-excerpt: "Mi primera entrada de blog en espsañol"
+excerpt: "Mi primera entrada de blog enS espsañol"
 authorId: "teoremal-dev"
 category: "General"
 tags: ["bienvenida", "introducción", "blog"]

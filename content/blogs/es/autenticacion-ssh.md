@@ -1,5 +1,5 @@
 ---
-title: Configuración de Autenticación con Clave SSH en tu Servidor
+title: Configuración de Autenticación con Clave SSH en tu Servidor VPS
 date: "2025-02-26"
 authorId: "mizael-segovia"
 excerpt: "Aprende a configurar la autenticación con clave SSH en tu servidor para mejorar la seguridad de tus conexiones."

@@ -25,15 +25,6 @@ jobs:
           persist-credentials: true
           fetch-depth: 0
 
-      - name: Debug token presence
-        run: |
-          if [ -n "${{ secrets.TERAMONT_PAT }}" ]; then
-            echo "Token está presente"
-          else
-            echo "Token no está disponible"
-            exit 1
-          fi
-
       - name: Sync blog content
         env:
           GH_TOKEN: ${{ secrets.TERAMONT_PAT }}

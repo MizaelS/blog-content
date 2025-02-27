@@ -3,13 +3,17 @@ name: Validate Blog Content
 on:
   push:
     branches:
-      - main
+      - master  # Cambiar main por master
   pull_request:
     branches:
-      - main
+      - master  # Cambiar main por master
   pull_request_target:
     branches:
-      - main
+      - master  # Cambiar main por master
+  pull_request_review:
+    types:
+      - submitted
+      - edited
 
 jobs:
   validate:

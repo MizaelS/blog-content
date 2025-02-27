@@ -1,9 +1,16 @@
-# ¡Hola Mundo!
+---
+title: "Hello World"
+date: "2023-07-15"
+excerpt: "My first blog post in spanish"
+authorId: "mizael-segovia"
+---
 
-Bienvenido a mi blog multilingüe. Esta es una entrada de muestra para probar la funcionalidad.
+# Hello World!
 
-## ¿Qué es esto?
+Welcome to my multilingual blog. This is a sample post to test the functionality.
 
-Esta es una entrada de blog simple escrita en Markdown que demuestra cómo funciona nuestro sistema de blog multilingüe.
+## What is this?
 
-¡Gracias por visitar!
+This is a simple blog post written in Markdown that demonstrates how our multilingual blog system works.
+
+Thank you for visiting!

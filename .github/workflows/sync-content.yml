@@ -1,14 +1,12 @@
 name: Sync Content to Teramont Website
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - master
 
 jobs:
   sync:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,7 +21,7 @@ jobs:
         with:
           repository: Teramont-Host/new-website
           path: teramont-web
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TERAMONT_PAT }}
           persist-credentials: true
           fetch-depth: 0
 
@@ -53,5 +51,5 @@ jobs:
           
           # Commit y push de cambios
           git add .
-          git commit -m "sync: Actualización de contenido desde blog-content-repo - PR #${{ github.event.pull_request.number }}"
-          git push origin HEAD:maina
+          git commit -m "sync: Actualización de contenido desde blog-content-repo - push a master"
+          git push origin HEAD:main

@@ -1,0 +1,12 @@
+{
+  "id": "author1",
+  "name": "Mizael Segovia",
+  "avatar": "https://example.com/avatars/author1.png",
+  "bio": "Desarrollador y escritor apasionado por la tecnología y los videojuegos.",
+  "links": {
+    "github": "https://github.com/mizael-segovia",
+    "linkedin": "https://www.linkedin.com/in/mizael-segovia/",
+    "twitter": "https://twitter.com/mizael_segovia",
+    "website": "https://mizaelsegovia.com"
+  }
+}

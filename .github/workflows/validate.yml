@@ -1,0 +1,85 @@
+name: Validate Blog Content
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install -g front-matter
+
+      - name: Check for duplicate files
+        run: |
+          # Crear un array temporal para almacenar los nombres de archivos
+          declare -A files
+          DUPLICATES=false
+          
+          for file in $(find content/blogs -name '*.md'); do
+            filename=$(basename "$file")
+            if [ "${files[$filename]+_}" ]; then
+              echo "ERROR: Archivo duplicado encontrado: $filename"
+              DUPLICATES=true
+            else
+              files[$filename]=1
+            fi
+          done
+          
+          if [ "$DUPLICATES" = true ]; then
+            exit 1
+          fi
+
+      - name: Validate Markdown files
+        run: |
+          for file in $(find content/blogs -name '*.md'); do
+            echo "Validating $file"
+            
+            # Validar estructura frontmatter
+            FRONTMATTER=$(node -e "
+              const fm = require('front-matter');
+              const fs = require('fs');
+              const content = fs.readFileSync('$file', 'utf8');
+              const parsed = fm(content);
+              const attr = parsed.attributes;
+              
+              // Verificar campos requeridos
+              const required = ['title', 'date', 'excerpt', 'authorId', 'category', 'tags'];
+              let missing = required.filter(field => !attr[field]);
+              
+              if (missing.length > 0) {
+                console.log('ERROR: Campos requeridos faltantes: ' + missing.join(', '));
+                process.exit(1);
+              }
+
+              // Verificar que authorId existe
+              const authorPath = 'content/authors/' + attr.authorId + '.json';
+              if (!fs.existsSync(authorPath)) {
+                console.log('ERROR: El autor ' + attr.authorId + ' no existe');
+                process.exit(1);
+              }
+
+              console.log('✓ Validación exitosa para ' + '$file');
+            ")
+          done
+
+      - name: Check JSON files
+        run: |
+          for file in $(find content/authors -name '*.json'); do
+            echo "Validating $file"
+            jq empty "$file"
+          done

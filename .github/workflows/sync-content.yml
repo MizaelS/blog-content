@@ -1,0 +1,40 @@
+name: Sync Content to Teramont Website
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  sync:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v2
+
+      - name: Checkout Teramont website repo
+        uses: actions/checkout@v2
+        with:
+          repository: Teramont-Host/new-website
+          token: ${{ secrets.TERAMONT_PAT }}
+          path: teramont-web
+
+      - name: Sync blog content
+        run: |
+          # Eliminar contenido existente
+          rm -rf teramont-web/content/*
+          
+          # Copiar nuevo contenido
+          cp -r content/* teramont-web/content/
+          
+          # Configurar git
+          cd teramont-web
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          
+          # Commit y push de cambios
+          git add .
+          git commit -m "sync: Actualización de contenido desde blog-content-repo - PR #${{ github.event.pull_request.number }}"
+          git push

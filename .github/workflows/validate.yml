@@ -3,10 +3,17 @@ name: Validate Blog Content
 on:
   push:
     branches:
-      - main
+      - master  # Cambiar main por master
   pull_request:
     branches:
-      - main
+      - master  # Cambiar main por master
+  pull_request_target:
+    branches:
+      - master  # Cambiar main por master
+  pull_request_review:
+    types:
+      - submitted
+      - edited
 
 jobs:
   validate:
@@ -22,22 +29,40 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: npm install -g front-matter
+        run: |
+          npm init -y
+          npm install front-matter
 
       - name: Check for duplicate files
         run: |
-          # Crear un array temporal para almacenar los nombres de archivos
-          declare -A files
+          # Crear arrays para almacenar archivos por idioma
+          declare -A es_files
+          declare -A en_files
           DUPLICATES=false
           
           for file in $(find content/blogs -name '*.md'); do
             filename=$(basename "$file")
-            if [ "${files[$filename]+_}" ]; then
-              echo "ERROR: Archivo duplicado encontrado: $filename"
-              DUPLICATES=true
-            else
-              files[$filename]=1
-            fi
+            lang_dir=$(basename $(dirname "$file"))
+            
+            # Verificar duplicados según el directorio de idioma
+            case $lang_dir in
+              "es")
+                if [ "${es_files[$filename]+_}" ]; then
+                  echo "ERROR: Archivo duplicado encontrado en /es/: $filename"
+                  DUPLICATES=true
+                else
+                  es_files[$filename]=1
+                fi
+                ;;
+              "en")
+                if [ "${en_files[$filename]+_}" ]; then
+                  echo "ERROR: Archivo duplicado encontrado en /en/: $filename"
+                  DUPLICATES=true
+                else
+                  en_files[$filename]=1
+                fi
+                ;;
+            esac
           done
           
           if [ "$DUPLICATES" = true ]; then
@@ -47,34 +72,43 @@ jobs:
       - name: Validate Markdown files
         run: |
           for file in $(find content/blogs -name '*.md'); do
-            echo "Validating $file"
+            echo "Validando $file..."
             
-            # Validar estructura frontmatter
-            FRONTMATTER=$(node -e "
+            # Validar estructura frontmatter con mejor manejo de errores
+            node -e "
               const fm = require('front-matter');
               const fs = require('fs');
-              const content = fs.readFileSync('$file', 'utf8');
-              const parsed = fm(content);
-              const attr = parsed.attributes;
               
-              // Verificar campos requeridos
-              const required = ['title', 'date', 'excerpt', 'authorId', 'category', 'tags'];
-              let missing = required.filter(field => !attr[field]);
-              
-              if (missing.length > 0) {
-                console.log('ERROR: Campos requeridos faltantes: ' + missing.join(', '));
+              try {
+                const content = fs.readFileSync('$file', 'utf8');
+                const parsed = fm(content);
+                const attr = parsed.attributes;
+                
+                // Verificar campos requeridos
+                const required = ['title', 'date', 'excerpt', 'authorId', 'category', 'tags'];
+                let missing = required.filter(field => !attr[field]);
+                
+                if (missing.length > 0) {
+                  console.error('ERROR en $file:');
+                  console.error('Campos requeridos faltantes: ' + missing.join(', '));
+                  process.exit(1);
+                }
+
+                // Verificar que authorId existe
+                const authorPath = 'content/authors/' + attr.authorId + '.json';
+                if (!fs.existsSync(authorPath)) {
+                  console.error('ERROR en $file:');
+                  console.error('El autor ' + attr.authorId + ' no existe en content/authors/');
+                  process.exit(1);
+                }
+
+                console.log('✓ Validación exitosa para $file');
+              } catch (error) {
+                console.error('ERROR procesando $file:');
+                console.error(error.message);
                 process.exit(1);
               }
-
-              // Verificar que authorId existe
-              const authorPath = 'content/authors/' + attr.authorId + '.json';
-              if (!fs.existsSync(authorPath)) {
-                console.log('ERROR: El autor ' + attr.authorId + ' no existe');
-                process.exit(1);
-              }
-
-              console.log('✓ Validación exitosa para ' + '$file');
-            ")
+            "
           done
 
       - name: Check JSON files

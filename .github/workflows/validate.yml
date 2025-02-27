@@ -33,17 +33,22 @@ jobs:
 
       - name: Check for duplicate files
         run: |
-          # Crear un array temporal para almacenar los nombres de archivos
-          declare -A files
+          # Crear un array temporal para almacenar los nombres de archivos por directorio
+          declare -A files_by_dir
           DUPLICATES=false
           
           for file in $(find content/blogs -name '*.md'); do
+            # Obtener el directorio padre (es, en, etc.)
+            dir=$(dirname "$file")
             filename=$(basename "$file")
-            if [ "${files[$filename]+_}" ]; then
-              echo "ERROR: Archivo duplicado encontrado: $filename"
+            # Crear una clave única combinando directorio y nombre de archivo
+            key="${dir}/${filename}"
+            
+            if [ "${files_by_dir[$key]+_}" ]; then
+              echo "ERROR: Archivo duplicado encontrado en el directorio $dir: $filename"
               DUPLICATES=true
             else
-              files[$filename]=1
+              files_by_dir[$key]=1
             fi
           done
           

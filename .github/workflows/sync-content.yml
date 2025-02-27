@@ -32,7 +32,7 @@ jobs:
           if [ -n "${{ secrets.TERAMONT_PAT }}" ]; then
             echo "Token está presente"
           else
-            echo "Token no está disponible"
+            echo "Token no está disponiblee"
             exit 1
           fi
 

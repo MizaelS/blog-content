@@ -18,14 +18,21 @@ jobs:
         with:
           fetch-depth: 0
         
-      - name: Checkout Teramont website repo
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           repository: Teramont-Host/new-website
           path: teramont-web
-          token: ${{ secrets.TERAMONT_PAT }}
+          token: ${{ secrets.TERAMONT_PAT }} # Add this line
           persist-credentials: true
           fetch-depth: 0
+          ssh-strict: true
+          clean: true
+          sparse-checkout-cone-mode: true
+          fetch-tags: false
+          lfs: false
+          submodules: false
+          set-safe-directory: true
 
       - name: Debug token presence
         run: |

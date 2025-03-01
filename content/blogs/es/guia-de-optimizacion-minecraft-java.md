@@ -64,7 +64,7 @@ La elección del software de servidor influye significativamente en el rendimien
 La pregeneración de mapas es esencial en servidores con CPU de un solo hilo o recursos limitados.  
 Utiliza complementos como [Chunky](https://github.com/pop4959/Chunky) para pregenerar chunks y establece límites de mundo para evitar la generación incontrolada.
 
-:::caution
+:::warning
 Cada dimensión (mundo normal, Nether y End) tiene su propio límite. El Nether, por defecto, es 8 veces más pequeño que el mundo normal.
 :::
 

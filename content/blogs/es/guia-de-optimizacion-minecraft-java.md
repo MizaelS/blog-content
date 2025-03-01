@@ -2,7 +2,7 @@
 title: Guía de optimización para servidores de Minecraft Java [2025]
 date: "2025-03-01"
 authorId: "teoremal-dev"
-excerpt: "Esta guía de optimización para servidores de Minecraft Java te proporcionará valiosos consejos y conocimientos para maximizar el rendimiento de tu servidor. Se incluye una explicación detallada de métricas como TPS, MSPT, FPS y Ping, así como ajustes recomendados en cada configuración. Además, se abordan temas críticos como el uso de procesos sincrónicos versus asíncronos y ejemplos de configuraciones"
+excerpt: "Esta guía de optimización para servidores de Minecraft Java te proporcionará valiosos consejos y conocimientos para maximizar el rendimiento de tu servidor."
 category: "Tutoriales"
 tags: [Minecraft Java, Paper, Purpur, Optimizacion, TPS, MSPT, FPS, Ping]
 ---

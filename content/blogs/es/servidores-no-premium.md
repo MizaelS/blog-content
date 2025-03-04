@@ -1,4 +1,3 @@
-
 ---
 title: ¿Cómo crear un servidor no premium y protegerlo?
 date: "2025-03-03"

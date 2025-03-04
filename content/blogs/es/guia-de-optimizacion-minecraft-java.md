@@ -91,7 +91,6 @@ Esta sección abarca las configuraciones recomendadas para mejorar el rendimient
 - **Valor recomendado:** `true`  
   Implementa un sistema alternativo de keepalive para evitar desconexiones por mala conexión.
   > *Envía un paquete cada segundo y solo desconecta si no se recibe respuesta en 30 segundos.*  
-  citeturn0search0
 
 ---
 

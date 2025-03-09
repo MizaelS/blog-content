@@ -11,18 +11,6 @@ tags: ["minecraft", "dns", "cloudflare", "servidor", "configuración"]
 Esta guía es ideal para quienes no tienen el puerto 25565 abierto en su servidor de Minecraft y desean configurar un acceso fácil mediante un dominio personalizado.
 :::
 
-:::tip
-Puedes usar cualquier subdominio para tu servidor, pero te recomendamos usar nombres descriptivos como "play", "mc" o "server" para que sea fácil de recordar.
-:::
-
-:::warning
-Asegúrate de desactivar el proxy de Cloudflare (nube naranja) en el registro A. De lo contrario, los jugadores no podrán conectarse al servidor.
-:::
-
-:::danger
-Nunca compartas la dirección IP real de tu servidor públicamente. Utiliza siempre el dominio personalizado para compartir el acceso a tu servidor.
-:::
-
 # Introducción
 En Minecraft, el puerto por defecto es `25565`. Sin embargo, si tu servidor tiene asignado un puerto diferente, necesitarás un registro SRV para que los jugadores puedan conectarse usando solo el nombre del dominio sin especificar el puerto manualmente.
 

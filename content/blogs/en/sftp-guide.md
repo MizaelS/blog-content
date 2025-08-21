@@ -1,7 +1,7 @@
 ---
 title: SFTP Connection Guide [2025]
 date: "2025-08-21"
-authorId: "ricardo-soto"
+authorId: "teoremal-dev"
 excerpt: "Learn how to connect your files to Teramont.net via SFTP using WinSCP, FileZilla, and CyberDuck quickly and securely."
 category: "Tutorials"
 tags: [SFTP, Teramont, WinSCP, FileZilla, CyberDuck, Security, Servers, Tutorial]
@@ -124,4 +124,5 @@ With these steps, you will be able to securely access and manage your files on T
 
 :::danger
 If you forget your password, reset it in the TCP panel, as it is the same for SFTP.
+
 :::
